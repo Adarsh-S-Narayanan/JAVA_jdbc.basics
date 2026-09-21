@@ -8,6 +8,10 @@ A Java application demonstrating **JDBC (Java Database Connectivity)** with a My
 
 ```
 d:\code\class\jdbc\
+├── database/                         # Raw XAMPP MySQL database files (jdbcdemo)
+│   ├── db.opt
+│   ├── students.frm
+│   └── students.ibd
 ├── schema.sql                        # SQL setup script for MySQL
 ├── lib/
 │   ├── mysql-connector-j-9.2.0.jar   # MySQL JDBC Driver
@@ -30,14 +34,14 @@ d:\code\class\jdbc\
 ## 🛠️ Complete XAMPP & MySQL Database Setup Guide
 
 ### 1. Installing & Starting XAMPP
-1. Download and install **XAMPP** from [Apache Friends](https://www.apachefriends.org/). (Default path is usually `C:\xampp`).
+1. Download and install **XAMPP** from [Apache Friends](https://www.apachefriends.org/). (Installed at `D:\Rdbms` or `C:\xampp`).
 2. Open the **XAMPP Control Panel**.
 3. Next to **Apache** and **MySQL**, click **Start**.
    - Ensure the MySQL status turns green (running on port `3306`).
 
 ---
 
-### 2. Setting Up the Database (`schema.sql`)
+### 2. Setting Up the Database
 
 #### Option A: Creating a New Database via phpMyAdmin (Web UI)
 1. Open your browser and go to `http://localhost/phpmyadmin/`.
@@ -49,9 +53,9 @@ d:\code\class\jdbc\
 
 #### Option B: Creating Database via MySQL Command Line / Terminal
 If you prefer using the command line:
-1. Open Command Prompt or PowerShell in XAMPP's MySQL bin directory (`C:\xampp\mysql\bin`):
+1. Open Command Prompt or PowerShell in XAMPP's MySQL bin directory (`D:\Rdbms\mysql\bin` or `C:\xampp\mysql\bin`):
    ```cmd
-   cd C:\xampp\mysql\bin
+   cd D:\Rdbms\mysql\bin
    mysql -u root
    ```
 2. Execute the script directly:
@@ -59,14 +63,14 @@ If you prefer using the command line:
    SOURCE d:/code/class/jdbc/schema.sql;
    ```
 
-#### Option C: Where to Put Existing Database Files (`.sql` or raw MySQL data files in XAMPP)
-- **If you have a `.sql` export file:**
-  Import it via **phpMyAdmin** (`http://localhost/phpmyadmin/` -> **Import** tab) OR run `mysql -u root database_name < filename.sql` in CMD.
-- **If you have raw XAMPP MySQL database folders/files (`.ibd`, `db.opt`, etc.):**
-  - Stop the MySQL service in XAMPP Control Panel.
-  - Navigate to XAMPP's data folder: `C:\xampp\mysql\data\`
-  - Paste your database folder (e.g., `jdbcdemo`) inside `C:\xampp\mysql\data\`.
-  - Start MySQL from XAMPP Control Panel again.
+#### Option C: Using the Pre-packaged `database/` Folder in XAMPP
+This repository includes the raw MySQL database folder [`database/`](file:///d:/code/class/jdbc/database).
+1. Stop the MySQL service in XAMPP Control Panel.
+2. Copy the [`database/`](file:///d:/code/class/jdbc/database) folder from this repository.
+3. Paste it into your XAMPP MySQL data directory:
+   - For XAMPP installed at `D:\Rdbms`: `D:\Rdbms\mysql\data\` (rename folder to `jdbcdemo` if needed, so path becomes `D:\Rdbms\mysql\data\jdbcdemo`).
+   - For standard XAMPP at `C:\xampp`: `C:\xampp\mysql\data\jdbcdemo`.
+4. Restart the MySQL service in XAMPP Control Panel.
 
 ---
 
