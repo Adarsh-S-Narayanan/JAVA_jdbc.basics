@@ -8,6 +8,7 @@ A Java application demonstrating **JDBC (Java Database Connectivity)** with a My
 
 ```
 d:\code\class\jdbc\
+├── schema.sql                        # SQL setup script for MySQL
 ├── lib/
 │   ├── mysql-connector-j-9.2.0.jar   # MySQL JDBC Driver
 │   └── (JavaFX SDK JARs if separate)  # JavaFX Libraries
@@ -26,34 +27,70 @@ d:\code\class\jdbc\
 
 ---
 
-## 🛠️ Prerequisites & Setup
+## 🛠️ Complete XAMPP & MySQL Database Setup Guide
 
-### 1. Java Development Kit (JDK)
-Ensure **JDK 17 or higher** (e.g., OpenJDK 25) is installed and configured in your system environment path (`JAVA_HOME` and `PATH`).
+### 1. Installing & Starting XAMPP
+1. Download and install **XAMPP** from [Apache Friends](https://www.apachefriends.org/). (Default path is usually `C:\xampp`).
+2. Open the **XAMPP Control Panel**.
+3. Next to **Apache** and **MySQL**, click **Start**.
+   - Ensure the MySQL status turns green (running on port `3306`).
 
-Check installation in command prompt:
+---
+
+### 2. Setting Up the Database (`schema.sql`)
+
+#### Option A: Creating a New Database via phpMyAdmin (Web UI)
+1. Open your browser and go to `http://localhost/phpmyadmin/`.
+2. **Where to write SQL queries / create table:**
+   - Click on the **SQL** tab at the top menu bar.
+   - Open the [`schema.sql`](file:///d:/code/class/jdbc/schema.sql) file from this repository, copy its contents, and paste them into the SQL query box.
+   - Click **Go** (bottom right).
+3. Alternatively, you can click the **Import** tab at the top, choose the [`schema.sql`](file:///d:/code/class/jdbc/schema.sql) file from your folder, and click **Import**.
+
+#### Option B: Creating Database via MySQL Command Line / Terminal
+If you prefer using the command line:
+1. Open Command Prompt or PowerShell in XAMPP's MySQL bin directory (`C:\xampp\mysql\bin`):
+   ```cmd
+   cd C:\xampp\mysql\bin
+   mysql -u root
+   ```
+2. Execute the script directly:
+   ```sql
+   SOURCE d:/code/class/jdbc/schema.sql;
+   ```
+
+#### Option C: Where to Put Existing Database Files (`.sql` or raw MySQL data files in XAMPP)
+- **If you have a `.sql` export file:**
+  Import it via **phpMyAdmin** (`http://localhost/phpmyadmin/` -> **Import** tab) OR run `mysql -u root database_name < filename.sql` in CMD.
+- **If you have raw XAMPP MySQL database folders/files (`.ibd`, `db.opt`, etc.):**
+  - Stop the MySQL service in XAMPP Control Panel.
+  - Navigate to XAMPP's data folder: `C:\xampp\mysql\data\`
+  - Paste your database folder (e.g., `jdbcdemo`) inside `C:\xampp\mysql\data\`.
+  - Start MySQL from XAMPP Control Panel again.
+
+---
+
+### 3. Application Configuration
+
+The database credentials in [`DatabaseConnection.java`](file:///d:/code/class/jdbc/src/com/example/jdbc/DatabaseConnection.java) are set to default XAMPP credentials:
+- **URL**: `jdbc:mysql://localhost:3306/jdbcdemo`
+- **Username**: `root`
+- **Password**: `""` *(empty string by default)*
+
+---
+
+## 🚀 How to Run the Application
+
+### Prerequisites: Java Development Kit (JDK)
+Ensure **JDK 17 or higher** is installed and configured in your environment (`JAVA_HOME` and `PATH`). Verify using:
 ```bash
 java -version
 javac -version
 ```
 
-### 2. MySQL Database (XAMPP)
-1. Install and open **XAMPP Control Panel**.
-2. Start the **MySQL** module (and optionally **Apache** if using phpMyAdmin).
-3. Database connection configuration in `DatabaseConnection.java`:
-   - **URL**: `jdbc:mysql://localhost:3306/jdbcdemo`
-   - **Username**: `root`
-   - **Password**: `""` *(empty password by default)*
-4. Ensure the database `jdbcdemo` exists. The application will automatically create the database and the `students` table if they do not exist when launched.
-
----
-
-## 🚀 How to Run
-
 ### Option 1: Command Line Interface (CLI)
 
 #### Quick Run (Batch Script - Windows)
-Double-click `compile_and_run.bat` or run it from PowerShell / CMD:
 ```powershell
 .\compile_and_run.bat
 ```
@@ -72,7 +109,6 @@ java -cp "bin;lib/*" com.example.jdbc.Main
 ### Option 2: Graphical User Interface (GUI)
 
 #### Quick Run (Batch Script - Windows)
-Double-click `compile_and_run_gui.bat` or run it from PowerShell / CMD:
 ```powershell
 .\compile_and_run_gui.bat
 ```
@@ -90,6 +126,7 @@ java --module-path lib --add-modules javafx.controls -cp "bin;lib/*" com.example
 
 ## 🗄️ Database Inspection & Management
 
-You can inspect the database records created by either the CLI or GUI using:
-- **phpMyAdmin**: Start Apache in XAMPP and go to `http://localhost/phpmyadmin/`.
-- **MySQL Workbench**: Connect to `localhost:3306` with user `root`.
+You can inspect and manage the database records created by either the CLI or GUI using:
+- **phpMyAdmin**: Start Apache & MySQL in XAMPP and open `http://localhost/phpmyadmin/`.
+- **MySQL Workbench / DBeaver**: Connect to `localhost:3306` with user `root` (no password).
+
